@@ -51,7 +51,7 @@ module Spree
       def use_easypost_to_calculate_rate?(package, shipping_method_filter)
         package.use_easypost? && package.weight > 0 &&
         (ShippingMethod::DISPLAY_ON_BACK_END == shipping_method_filter ||
-        ShippingMethod::DISPLAY_ON_FRONT_AND_BACK_END == shipping_method_filter ||
+        ShippingMethod::DISPLAY_ON_BACK_END == shipping_method_filter ||
         is_shipping_rate_dynamic_on_front_end?(shipping_method_filter))
       end
 
