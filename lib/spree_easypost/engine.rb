@@ -23,8 +23,8 @@ module SpreeEasypost
        preference :returns_stock_location_id, :integer, default: 0
      end
 
-     Spree::ShippingMethod::DISPLAY += [:none]
-   end
+     #  Spree::ShippingMethod::DISPLAY += [:none]
+    end
 
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|

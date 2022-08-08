@@ -1,4 +1,4 @@
-class CreateSpreeScanForms < ActiveRecord::Migration
+class CreateSpreeScanForms < ActiveRecord::Migration[6.1]
   def change
     create_table :spree_scan_forms do |t|
       t.string :easy_post_scan_form_id
