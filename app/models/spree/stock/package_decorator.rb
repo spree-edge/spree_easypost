@@ -31,7 +31,8 @@ module Spree
       def customs_required?
        shipping_address = order.ship_address
        (stock_location.country != shipping_address.country) ||
-       (US_STATES_REQUIRING_CUSTOMS.any? { |i| i[shipping_address.state.abbr] })
+       (US_STATES_REQUIRING_CUSTOMS.any? { |i| 
+         i[shipping_address.state&.abbr] if shipping_address.state.present?})
       end
 
       def stock_location_returns

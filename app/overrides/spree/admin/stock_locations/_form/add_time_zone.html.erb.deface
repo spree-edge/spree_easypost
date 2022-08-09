@@ -1,5 +1,0 @@
-<!-- insert_after '[data-hook="stock_location_country"]' -->
-<div class="form-group" data-hook="stock_location_country">
-    <%= f.label :time_zone, Spree.t(:time_zone) %>
-    <span id="time_zone"><%= f.time_zone_select :time_zone, nil, :default => "UTC", :class => 'select2' %></span>
-</div>

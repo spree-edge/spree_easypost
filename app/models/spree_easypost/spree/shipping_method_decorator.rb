@@ -4,13 +4,11 @@ module SpreeEasypost
 
       # Some shipping methods are only meant to be set via backend
       def frontend?
-        debugger
         self.display_on != "back_end" && !none?
       end
 
       # Some shipping methods should not be displayed at all
       def none?
-        debugger
         self.display_on == "none"
       end
 
