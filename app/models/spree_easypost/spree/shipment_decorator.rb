@@ -8,7 +8,7 @@ module SpreeEasypost
         base.state_machine.before_transition(
           to: :shipped,
           do: :buy_easypost_rate,
-          if: -> { Spree::Config[:buy_postage_when_shipped] }
+          if: -> { ::Spree::Config[:buy_postage_when_shipped] }
         )
       end
 
@@ -25,7 +25,7 @@ module SpreeEasypost
         raise "can only buy postage when order is ready" unless (self.state == 'ready' || self.state == 'shipped')
 
         # regenerate the rates so we get updated data
-        refresh_rates(Spree::ShippingMethod::DISPLAY_ON_BACK_END)
+        refresh_rates(::Spree::ShippingMethod::DISPLAY_ON_BACK_END)
         @ep_shipment = nil
 
         # Get the selected rate
