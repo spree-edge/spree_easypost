@@ -20,14 +20,18 @@ Spree::Core::Engine.add_routes do
         
       end
 
-      resources :shipments do
-        member do
-          put :buy_postage
-        end
-      end
-
       post "/scan_form" => "shipments#scan_form"
 
+    end
+
+    namespace :v2 do
+      namespace :platform do
+        resources :shipments do
+          member do
+            put :buy_postage
+          end
+        end
+      end
     end
   end
 end
