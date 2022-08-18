@@ -12,8 +12,8 @@ $('[data-hook=admin_shipment_form] a.ship-postage').on('click', function () {
     headers: Spree.apiV2Authentication()
   }).done(function () {
     window.location.reload();
-  }).error(function (msg) {
-    console.log(msg);
+  }).fail(function (msg)  {
+    alert(msg.responseJSON.error)
   });
 });
 

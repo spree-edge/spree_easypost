@@ -3,6 +3,10 @@ module Spree
     module V2
       module Platform
         module ShipmentsControllerDecorator
+          def self.prepended(base)
+            base.respond_to :json
+          end
+
           def buy_postage
             begin
               # find_and_update_shipment
@@ -14,9 +18,9 @@ module Spree
                     resource.ship!
                 end
               end
-              respond_with(resource, default_template: :show)
+              respond_with(resource.reload, default_template: :show)
             rescue ::EasyPost::Error => e
-              render json: e.json_body, :status => :bad_request
+              render json: { :error => e.message }, :status => :bad_request
             rescue Exception => e
               render json: { :error => e.message }, :status => :bad_request
             end
