@@ -1,5 +1,5 @@
 module Spree
-  module EasyPost
+  module Easypost
     module AddressDecorator
       # StockLocation AND Address prepend this decorator,
       # but state_validate and postal_code_validate are only methods on Address Model
@@ -115,5 +115,5 @@ module Spree
   end
 end
 
-Spree::Address.prepend Spree::EasyPost::AddressDecorator
-Spree::StockLocation.prepend Spree::EasyPost::AddressDecorator
+Spree::Address.prepend Spree::Easypost::AddressDecorator
+Spree::StockLocation.prepend Spree::Easypost::AddressDecorator
