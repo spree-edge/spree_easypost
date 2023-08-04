@@ -3,7 +3,7 @@ module SpreeEasypost
     module StockLocationDecorator
       #alias the company name to the name of the stock location
       def self.prepended(base)
-        base.alias_attribute :company, :name
+        base.alias_attribute :company, :company_name
 
         base.has_many :scan_forms
 
