@@ -21,13 +21,13 @@ module Spree
               calculator = shipping_method.calculator
               # Create the easypost rate
               spree_rate = Spree::ShippingRate.new(
-                cost: calculator == Spree::Calculator::Shipping::EasypostRate ? rate.rate : calculator.compute(package),
+                cost: calculator.type == "Spree::Calculator::Shipping::EasypostRate" ? rate.rate : calculator.compute(package),
                 easy_post_shipment_id: rate.shipment_id,
                 easy_post_rate_id: rate.id,
                 shipping_method: shipping_method
               )
               # Save the rates that we want to show the customer
-              shipping_rates << spree_rate if shipping_method.available_to_display(shipping_method_filter)
+              shipping_rates << spree_rate if shipping_method.available_to_display?(shipping_method_filter)
             end
 
             # Sets cheapest rate to be selected by default
@@ -56,7 +56,7 @@ module Spree
       end
 
       def is_shipping_rate_dynamic_on_front_end?(shipping_method_filter)
-        Spree::Config[:use_easypost_on_frontend] &&
+        SpreeEasypost::Config[:use_easypost_on_frontend] &&
         (ShippingMethod::DISPLAY_ON_FRONT_END == shipping_method_filter)
       end
 
@@ -67,9 +67,9 @@ module Spree
         method_name = "#{ rate.carrier } #{ rate.service }"
         Spree::ShippingMethod.find_or_create_by(admin_name: method_name) do |r|
           r.name = method_name
-          r.display_on = 'back_end'
+          r.display_on = 'both'
           r.code = rate.service
-          r.calculator = Spree::Calculator::Shipping::FlatRate.create
+          r.calculator = Spree::Calculator::Shipping::EasypostRate.create
           r.shipping_categories = [Spree::ShippingCategory.first]
         end
       end

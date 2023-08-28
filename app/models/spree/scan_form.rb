@@ -20,10 +20,11 @@ module Spree
 
         def generate_scan_form
             begin
-                @scan_form = ::EasyPost::ScanForm.create(shipments: @easy_post_shipments)
+                client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
+                @scan_form = client.scan_form.create(shipments: @easy_post_shipments)
                 self.easy_post_scan_form_id = @scan_form.id
                 self.scan_form = @scan_form.form_url
-            rescue ::EasyPost::Error => e
+            rescue EasyPost::Errors => e
                 errors.add(:base, e.message)
                 false
             end
@@ -32,9 +33,9 @@ module Spree
         def get_easy_post_shipments
             time_in_zone = Time.now.in_time_zone(stock_location.time_zone)
             selected_carrier = "USPS" # only USPS does scan forms currently
-            @shipments = Shipment.joins(:shipping_rates => :shipping_method)
-                    .where({state: "shipped", 
-                    shipped_at: time_in_zone.beginning_of_day..(time_in_zone.end_of_day), 
+            @shipments = Spree::Shipment.joins(:shipping_rates => :shipping_method)
+                    .where({state: "shipped",
+                    shipped_at: time_in_zone.beginning_of_day..(time_in_zone.end_of_day),
                     stock_location: stock_location, 
                     scan_form_id: nil,
                     spree_shipping_rates: { selected: true }})

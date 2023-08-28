@@ -19,7 +19,7 @@ module Spree
                 end
               end
               respond_with(resource.reload, default_template: :show)
-            rescue ::EasyPost::Error => e
+            rescue ::EasyPost::Errors => e
               render json: { :error => e.message }, :status => :bad_request
             rescue Exception => e
               render json: { :error => e.message }, :status => :bad_request

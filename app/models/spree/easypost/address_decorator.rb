@@ -22,11 +22,12 @@ module Spree
         attributes[:state] = state ? state.abbr : state_name
         attributes[:country] = country.try(:iso)
 
-        ::EasyPost::Address.create attributes
+        @client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
+        @client.address.create(attributes)
       end
 
       def easypost_address_validate
-        return true unless Spree::Config.validate_address_with_easypost
+        return true unless SpreeEasypost::Config.validate_address_with_easypost
 
         ep_address = easypost_address({ verify: ["zip4", "delivery"] })
         verifications = ep_address.verifications
@@ -43,7 +44,7 @@ module Spree
       # if Spree::Config.validate_address_with_easypost is set to true
       # then we do not wan t to run Spree's built-in validations
       def use_spree_validations?
-        !Spree::Config.validate_address_with_easypost
+        !SpreeEasypost::Config.validate_address_with_easypost
       end
 
       def success?(verification)

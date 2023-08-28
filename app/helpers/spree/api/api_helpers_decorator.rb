@@ -13,5 +13,3 @@ module Spree
     end
   end
 end
-
-Spree::Api::ApiHelpers.prepend Spree::Api::ApiHelpersDecorator
