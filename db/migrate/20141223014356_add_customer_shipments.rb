@@ -1,4 +1,4 @@
-class AddCustomerShipments < ActiveRecord::Migration
+class AddCustomerShipments < ActiveRecord::Migration[6.1]
   def change
     create_table "spree_customer_shipments" do |t|
       t.belongs_to  :return_authorization
@@ -10,7 +10,6 @@ class AddCustomerShipments < ActiveRecord::Migration
       t.timestamps  null: false
     end
 
-    add_index :spree_customer_shipments, :return_authorization_id
     add_index :spree_customer_shipments, :tracking
     add_index :spree_customer_shipments, :number
   end

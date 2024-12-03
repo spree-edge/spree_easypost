@@ -21,8 +21,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'easypost', '>= 2.7', '< 3.1'
-  s.add_dependency 'spree_core', '>= 3.1.0', '< 4.0'
+  s.add_dependency 'easypost'
+  s.add_dependency 'spree_core', '>= 3.1.0'
+
   s.add_dependency 'spree_extension'
 
   s.add_development_dependency 'capybara'

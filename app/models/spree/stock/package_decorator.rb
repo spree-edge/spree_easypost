@@ -5,7 +5,9 @@ module Spree
       US_STATES_REQUIRING_CUSTOMS = ["AS", "GU", "MP", "PR", "VI", "UM", "AP", "AE", "AA"]
 
       def easypost_parcel
-        ::EasyPost::Parcel.create weight: weight
+       @client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
+       @client.parcel.create(
+        weight: weight)
       end
 
       def use_easypost?
@@ -31,11 +33,12 @@ module Spree
       def customs_required?
        shipping_address = order.ship_address
        (stock_location.country != shipping_address.country) ||
-       (US_STATES_REQUIRING_CUSTOMS.any? { |i| i[shipping_address.state.abbr] })
+       (US_STATES_REQUIRING_CUSTOMS.any? { |i| 
+         i[shipping_address.state&.abbr] if shipping_address.state.present?})
       end
 
       def stock_location_returns
-        Spree::StockLocation.find_by(id: Spree::Config[:returns_stock_location_id])
+        Spree::StockLocation.find_by(id: SpreeEasypost::Config[:returns_stock_location_id])
       end
 
       def easypost_customs_info
@@ -45,7 +48,8 @@ module Spree
           variant = item.variant
           product = variant.product
 
-          ::EasyPost::CustomsItem.create(
+          @client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
+          @client.CustomsItem.create(
             description: product.taxons.map { |taxon| taxon.name }.join(" "),
             quantity: item.quantity,
             value: variant.price * item.quantity,
@@ -58,16 +62,16 @@ module Spree
         raise "Contact Support For EEL/PFC" if order.total > 2500
 
         ::EasyPost::CustomsInfo.create(
-          eel_pfc: Spree::Config[:customs_eel_pfc],
+          eel_pfc: SpreeEasypost::Config[:customs_eel_pfc],
           customs_certify: true,
-          customs_signer: Spree::Config[:customs_signer],
-          contents_type: Spree::Config[:customs_contents_type],
+          customs_signer: SpreeEasypost::Config[:customs_signer],
+          contents_type: SpreeEasypost::Config[:customs_contents_type],
           customs_items: customs_items,
         )
       end
 
       def carrier_accounts
-        Spree::Config[:carrier_accounts_shipping].split(",")
+        SpreeEasypost::Config[:carrier_accounts_shipping].split(",")
       end
 
       def shipment_options
@@ -76,12 +80,13 @@ module Spree
           print_custom_1_barcode: true,
           print_custom_2: build_sku_list,
           print_custom_2_barcode: false,
-          endorsement: Spree::Config[:endorsement_type]
+          endorsement: SpreeEasypost::Config[:endorsement_type]
         }
       end
 
-      def easypost_shipment
-        ::EasyPost::Shipment.create(
+     def easypost_shipment
+      @client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
+      @client.shipment.create(
           to_address: order.ship_address.try(:easypost_address),
           from_address: stock_location.try(:easypost_address),
           return_address: stock_location_returns.try(:easypost_address),

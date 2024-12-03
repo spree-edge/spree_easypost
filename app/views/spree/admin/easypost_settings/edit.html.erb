@@ -4,61 +4,78 @@
   <div class="yui-g">
     <div class="yui-u first">
       <fieldset>
-        <p>
-          <label><%= t('buy_postage_when_shipped') %></label><br />
+        <p class='form-check'>
           <%= hidden_field_tag 'settings[buy_postage_when_shipped]', false %>
-          <%= check_box_tag 'settings[buy_postage_when_shipped]', true, Spree::Config.buy_postage_when_shipped, class: 'easypost' %>
+          <%= check_box_tag 'settings[buy_postage_when_shipped]', true, SpreeEasypost::Config.buy_postage_when_shipped, class: 'easypost form-check-input' %>
+           <label class="form-check-label"><%= t('buy_postage_when_shipped') %></label>
         </p>
 
-        <p>
-          <label><%= t('use_easypost_on_frontend') %></label><br />
+        <p class='form-check'>
           <%= hidden_field_tag 'settings[use_easypost_on_frontend]', false %>
-          <%= check_box_tag 'settings[use_easypost_on_frontend]', true, Spree::Config.use_easypost_on_frontend, class: 'easypost' %>
+          <%= check_box_tag 'settings[use_easypost_on_frontend]', true, SpreeEasypost::Config.use_easypost_on_frontend, class: 'easypost form-check-input' %>
+          <label class="form-check-label"><%= t('use_easypost_on_frontend') %></label>
         </p>
 
-        <p>
-          <label><%= t('validate_address_with_easypost') %></label><br />
+        <p class='form-check'>
           <%= hidden_field_tag 'settings[validate_address_with_easypost]', false %>
-          <%= check_box_tag 'settings[validate_address_with_easypost]', true, Spree::Config.validate_address_with_easypost, class: 'easypost' %>
+          <%= check_box_tag 'settings[validate_address_with_easypost]', true, SpreeEasypost::Config.validate_address_with_easypost, class: 'easypost form-check-input' %>
+          <label class="form-check-label"><%= t('validate_address_with_easypost') %></label><br />
         </p>
 
         <p>
           <label><%= t('customs_signer') %></label><br />
-          <%=  text_field_tag 'settings[customs_signer]', Spree::Config.customs_signer %>
+          <%=  text_field_tag 'settings[customs_signer]', SpreeEasypost::Config.customs_signer,class:'form-control'%>
         </p>
 
         <p>
           <label><%= t('customs_contents_type') %></label><br />
-          <%=  text_field_tag 'settings[customs_contents_type]', Spree::Config.customs_contents_type %>
+          <%=  text_field_tag 'settings[customs_contents_type]', SpreeEasypost::Config.customs_contents_type, class:'form-control' %>
         </p>
 
         <p>
           <label><%= t('customs_eel_pfc') %></label><br />
-          <%=  text_field_tag 'settings[customs_eel_pfc]', Spree::Config.customs_eel_pfc %>
+          <%=  text_field_tag 'settings[customs_eel_pfc]', SpreeEasypost::Config.customs_eel_pfc,class:'form-control' %>
         </p>
 
         <p>
           <label><%= t('carrier_accounts_shipping') %></label><br />
-          <%=  text_field_tag 'settings[carrier_accounts_shipping]', Spree::Config.carrier_accounts_shipping %>
+          <%=  text_field_tag 'settings[carrier_accounts_shipping]', SpreeEasypost::Config.carrier_accounts_shipping,class:'form-control' %>
         </p>
 
         <p>
           <label><%= t('carrier_accounts_returns') %></label><br />
-          <%=  text_field_tag 'settings[carrier_accounts_returns]', Spree::Config.carrier_accounts_returns %>
+          <%=  text_field_tag 'settings[carrier_accounts_returns]', SpreeEasypost::Config.carrier_accounts_returns,class:'form-control' %>
         </p>
 
         <p>
           <label><%= t('endorsement_type') %></label><br />
-          <%=  text_field_tag 'settings[endorsement_type]', Spree::Config.endorsement_type %>
+          <%=  text_field_tag 'settings[endorsement_type]', SpreeEasypost::Config.endorsement_type,class:'form-control'%>
         </p>
 
         <p>
           <label><%= t('returns_center_stock_location') %></label><br />
-          <%=  select_tag 'settings[returns_stock_location_id]', options_from_collection_for_select(@stock_locations, "id", "admin_name", Spree::Config.returns_stock_location_id) %>
+          <%=  select_tag 'settings[returns_stock_location_id]', options_from_collection_for_select(@stock_locations, "id", "admin_name", SpreeEasypost::Config.returns_stock_location_id),class:'form-control'%>
         </p>
+        <p>
+          <label><%= t('api_key') %></label><br />
+          <%=  text_field_tag 'settings[api_key]', SpreeEasypost::Config.api_key, class: 'form-control' %>
+        </p>
+
       </fieldset>
     </div>
   </div>
 
   <p class="form-buttons"><%= button t('save_preferences') %></p>
+  <div class="row">
+    <div class="col-md-12 text-muted">
+      <h6>Easy Post Shipping Requirements</h2>
+      <ul class="">
+        <li class="">Product should have a weight of more than 0 while using EasyPost shipping service.</li>
+        <li class="">EasyPost service must be enabled in the shipping category.</li>
+        <li class="">Use EasyPost On Frontend must be enabled in EasyPost settings.</li>
+        <li class="">Stock Location's address is used as the warehouse address for shipping.</li>
+        <li class="">Shipping calculators will be automatically get created for EasyPost.</li>
+      </ul>
+    </div>
+  </div>
 <% end %>

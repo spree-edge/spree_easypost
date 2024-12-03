@@ -9,7 +9,7 @@ module Spree
       def update
         update_easypost_settings
 
-        redirect_to :back
+        redirect_to admin_easypost_setting_path
       end
 
       private
@@ -20,7 +20,7 @@ module Spree
 
       def update_easypost_settings
         easypost_settings_params.each do |key, value|
-          Spree::Config[key] = value
+          SpreeEasypost::Config[key] = value
         end
       end
 
@@ -36,6 +36,7 @@ module Spree
             :carrier_accounts_returns,
             :endorsement_type,
             :returns_stock_location_id,
+            :api_key
         )
       end
     end
