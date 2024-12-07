@@ -28,11 +28,6 @@
           data-hook="admin_tabs">
           <%= render partial: 'spree/admin/shared/main_menu' %>
           <%= render partial: 'spree/admin/shared/version' %>
-          <% if can? :admin, Spree::ScanForm %>
-            <ul class="nav nav-sidebar">
-              <%= tab Spree::ScanForm, url: admin_scan_forms_url, icon: 'barcode', label: plural_resource_name(Spree::ScanForm) %>
-            </ul>
-          <% end %>
         </aside>
 
         <%#-------------------------------------------------%>
