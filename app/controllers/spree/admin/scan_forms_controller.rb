@@ -10,7 +10,7 @@ module Spree
           @scan_forms = ScanForm.all
         
           @search = @scan_forms.ransack(params[:q])
-          per_page = params[:per_page] || Spree::Config[:admin_products_per_page]
+          per_page = params[:per_page] || Spree::Config[:products_per_page]
           @scan_forms = @search.result.order(created_at: :desc).page(params[:page]).per(per_page)
 
           respond_with(@scan_forms)
