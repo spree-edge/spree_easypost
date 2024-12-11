@@ -1,13 +1,13 @@
 Rails.application.config.after_initialize do
   if Spree::Core::Engine.backend_available?
     Rails.application.config.spree_backend.main_menu.add_to_section(
-      'settings',
+      'integrations',
       ::Spree::Admin::MainMenu::ItemBuilder.new(
         'easy_post_settings',
         ::Spree::Core::Engine.routes.url_helpers.edit_admin_easypost_setting_path(id: "easypost_settings")
       )
       .with_manage_ability_check(SpreeEasypost::Spree::Easypost)
-      .with_match_path('/easy_post_settings')
+      .with_match_path('/easypost_settings')
       .build
     )
 
@@ -18,7 +18,7 @@ Rails.application.config.after_initialize do
         ::Spree::Core::Engine.routes.url_helpers.admin_customer_shipments_tracking_index_path
       )
       .with_manage_ability_check(Spree::CustomerShipment)
-      .with_match_path('/admin_customer_shipments')
+      .with_match_path('/customer_shipments_tracking')
       .build
       )
 
