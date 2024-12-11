@@ -23,6 +23,7 @@ module SpreeEasypost
 
 
       def buy_easypost_rate
+        return if self.tracking_label.present?
         return true unless selected_shipping_rate.easy_post_rate_id.present? # Handled for spree populates shipping rates
 
         raise "can only buy postage when order is ready" unless (self.state == 'ready' || self.state == 'shipped')

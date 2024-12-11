@@ -26,8 +26,7 @@ module Spree
         end
 
         client = EasyPost::Client.new(api_key: SpreeEasypost::Config[:api_key])
-        # @scan_form = client.scan_form.create(shipments: @easy_post_shipments)
-        @scan_form = client.scan_form.create(shipments: [@easy_post_shipments.first.id])
+        @scan_form = client.scan_form.create(shipments: @easy_post_shipments)
         self.easy_post_scan_form_id = @scan_form.id
         self.scan_form = @scan_form.form_url
       rescue EasyPost::Errors => e
