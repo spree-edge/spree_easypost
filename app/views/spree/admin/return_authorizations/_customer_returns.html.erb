@@ -1,24 +1,26 @@
 <% if @return_authorization.customer_shipments.any? %>
-  <table class="table">
-    <thead data-hook="customer_shipments_header">
-      <tr>
-        <th><%= Spree.t(:customer_shipments_number) %></th>
-        <th><%= Spree.t(:customer_shipments_tracking) %></th>
-        <th><%= Spree.t(:customer_shipments_weight) %></th>
-        <th><%= "#{Spree.t('date')}/#{Spree.t('time')}" %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    <% @return_authorization.customer_shipments.each do |customer_shipment| %>
-        <tr id="<%= spree_dom_id(customer_shipment) %>" data-hook="return_row">
-          <td><%= customer_shipment.number %></td>
-          <td><%= link_to "#{customer_shipment.tracking}", customer_shipment.tracking_label %></td>
-          <td><%= customer_shipment.weight %></td>
-          <td><%= pretty_time(customer_shipment.created_at) %></td>
+  <div class="table-responsive border rounded bg-white mb-4">
+    <table class="table table-condensed border rounded return-items-table">
+      <thead class="text-muted" data-hook="customer_shipments_header">
+        <tr>
+          <th scope="col"><%= Spree.t(:customer_shipments_number) %></th>
+          <th scope="col"><%= Spree.t(:customer_shipments_tracking) %></th>
+          <th scope="col"><%= Spree.t(:customer_shipments_weight) %></th>
+          <th scope="col"><%= "#{Spree.t('date')}/#{Spree.t('time')}" %></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @return_authorization.customer_shipments.each do |customer_shipment| %>
+          <tr id="<%= spree_dom_id(customer_shipment) %>" data-hook="return_row">
+            <td><%= customer_shipment.number %></td>
+            <td>
+              <%= link_to customer_shipment.tracking, customer_shipment.tracking_label, class: 'text-primary' %>
+            </td>
+            <td><%= customer_shipment.weight %></td>
+            <td><%= pretty_time(customer_shipment.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
-

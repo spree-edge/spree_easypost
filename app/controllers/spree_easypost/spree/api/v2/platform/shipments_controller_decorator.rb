@@ -1,4 +1,4 @@
-module SpreeEasyPost
+module SpreeEasypost
   module Spree
     module Api
       module V2
@@ -42,4 +42,4 @@ module SpreeEasyPost
   end
 end
 
-Spree::Api::V2::Platform::ShipmentsController.prepend SpreeEasyPost::Spree::Api::V2::Platform::ShipmentsControllerDecorator
+::Spree::Api::V2::Platform::ShipmentsController.prepend(::SpreeEasypost::Spree::Api::V2::Platform::ShipmentsControllerDecorator)
